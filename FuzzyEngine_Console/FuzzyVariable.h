@@ -19,8 +19,8 @@ public:
 private:
 	std::string m_ID;
 	int m_memFuncCount;
-	MemFunc* m_memFuncs;
-	std::map<std::string, MemFunc*> m_mapFunc;
+	FuzzyMemFunc* m_memFuncs;
+	std::map<std::string, FuzzyMemFunc*> m_mapFunc;
 };
 
 #endif

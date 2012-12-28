@@ -2,6 +2,7 @@
 #define _FUZZY_MEMBERSHIP_FUNCTION_H_
 
 #include <string>
+#include <map>
 
 class FuzzyMemFunc
 {
@@ -15,11 +16,14 @@ public:
 	void Evaluate(float input);
 
 private:
+	void MapInputToIndex();
+private:
 	int m_pointCount;
 	float m_maxRange;
 	float m_minRange;
 	float* m_dataPoints;
 	std::string m_funcName;
+	std::map<float, int> m_mapInput2Index;
 };
 
 #endif
