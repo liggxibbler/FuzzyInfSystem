@@ -3,34 +3,48 @@
 
 #include "FuzzyVariable.h"
 
-class FuzzyInfSystem
+namespace Fuzzy
 {
-private:
-	struct RuleTwoInOneOut
+	class InfSystem
 	{
-		//std::pair<std::string, std::string>* input;   // these could work for a more general system
-		//std::pair<std::string, std::string>* output;  // with arbitrary input and outputs
-		std::string input1;
-		std::string value1;
-		std::string input2;
-		std::string value2;
-		std::string output;
-		std::string outValue;
+	private:
+		struct RulePair
+		{
+			std::string variable;
+			std::string value;
+		};
+		
+		//struct RuleBase
+		//{
+		//	RulePair* input;   // these could work for a more general system
+		//	RulePair* output;  // with arbitrary input and outputs
+		//};
+
+		struct Rule
+		{
+			RulePair input1;
+			RulePair input2;
+			RulePair output;
+		};
+	
+	public:
+		InfSystem();
+		InfSystem(InfSystem& other);
+		~InfSystem();
+
+		bool Initialize(char* filename);
+		void Shutdown();
+		float Evaluate(float* input);
+	
+	private:
+		MemFunc* Aggregate();
+
+	private:
+		Variable* m_inputs;
+		Variable* m_outputs;
+		MemFunc* m_thenParts;
+		int m_ruleCount;
+		Rule* m_ruleBase;
 	};
-public:
-	FuzzyInfSystem();
-	FuzzyInfSystem(FuzzyInfSystem& other);
-	~FuzzyInfSystem();
-
-	bool Initialize();
-	void Shutdown();
-	float Evaluate(float* input);
-
-private:
-	FuzzyVariable* m_inputs;
-	FuzzyVariable* m_outputs;
-	int m_ruleCount;
-	RuleTwoInOneOut* m_ruleBase;
-};
-
+}
 #endif

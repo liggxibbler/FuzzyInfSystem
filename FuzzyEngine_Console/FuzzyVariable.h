@@ -4,23 +4,28 @@
 #include "FuzzyMemFunc.h"
 #include <map>
 
-class FuzzyVariable
+namespace Fuzzy
 {
-public:
-	FuzzyVariable();
-	FuzzyVariable(FuzzyVariable& other);
-	~FuzzyVariable();
+	class Variable
+	{
+	public:
+		Variable();
+		Variable(Variable& other);
+		~Variable();
 
-	bool Initialize();
-	void Shutdown();
-	float Is(std::string function); // 
-	float* Is(float value); // return points at which var is value
+		bool Initialize();
+		void Shutdown();
+		float IsIf(std::string function, float input); // return function(input)
+		MemFunc* IsThen(std::string function, float value); // return MF clamped at
 
-private:
-	std::string m_ID;
-	int m_memFuncCount;
-	FuzzyMemFunc* m_memFuncs;
-	std::map<std::string, FuzzyMemFunc*> m_mapFunc;
-};
+		int GetFuncCount();
+		std::string GetID();
 
+	private:
+		std::string m_ID;
+		int m_memFuncCount;
+		MemFunc* m_memFuncs;
+		std::map<std::string, MemFunc*> m_mapFunc;
+	};
+}
 #endif
