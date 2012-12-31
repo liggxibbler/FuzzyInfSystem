@@ -24,12 +24,24 @@
     <ClInclude Include="FuzzyInfSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FuzzyTriMF.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FuzzyMemFunc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyVariable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyTriMF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FuzzyInfSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

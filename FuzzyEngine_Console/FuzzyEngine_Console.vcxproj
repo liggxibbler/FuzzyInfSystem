@@ -77,9 +77,13 @@
     <ClInclude Include="FuzzyInfSystem.h" />
     <ClInclude Include="FuzzyMemFunc.h" />
     <ClInclude Include="FuzzyVariable.h" />
+    <ClInclude Include="FuzzyTriMF.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="FuzzyInfSystem.cpp" />
     <ClCompile Include="FuzzyMemFunc.cpp" />
+    <ClCompile Include="FuzzyTriMF.cpp" />
+    <ClCompile Include="FuzzyVariable.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

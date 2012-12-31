@@ -1,6 +1,7 @@
 #ifndef _FUZZY_MEMBERSHIP_FUNCTION_H_
 #define _FUZZY_MEMBERSHIP_FUNCTION_H_
 
+#include <math.h>
 #include <string>
 #include <map>
 
@@ -13,19 +14,23 @@ namespace Fuzzy
 		MemFunc(MemFunc& other);
 		~MemFunc();
 
-		bool Initialize(std::string id, float min, float max, int pointCount, float left, float mid, float right);
-		void LoadTriangle(float left, float mid, float right);
+		bool Initialize(std::string id, float min, float max, int pointCount);
 		void Shutdown();
 		float operator () (float input);
 		float Defuzzify();
+		MemFunc* Imply(float premise);
 
 		float GetX(int index);
 		float GetY(int index);
 		int GetPointCount();
+		std::string GetName();
+		float Evaluate(float input);
+		void Clear();
 
 	private:
-		float Evaluate(float input);
-	private:
+		MemFunc* Clamp(float limit);
+		//MemFunc* Modulate(float factor);
+	protected:
 		int m_pointCount;
 		float m_maxRange;
 		float m_minRange;

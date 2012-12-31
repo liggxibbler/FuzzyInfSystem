@@ -16,7 +16,7 @@ MemFunc::~MemFunc()
 {
 }
 
-bool MemFunc::Initialize(std::string id, float min, float max, int pointCount, float left, float mid, float right)
+bool MemFunc::Initialize(std::string id, float min, float max, int pointCount)
 {
 	m_funcName = id;
 	m_minRange = min;
@@ -48,8 +48,6 @@ bool MemFunc::Initialize(std::string id, float min, float max, int pointCount, f
 		m_dataPointsX[i] = m_minRange + i * (m_maxRange - m_minRange)/(m_pointCount - 1);
 	}
 
-	LoadTriangle(left, mid, right);
-
 	return true;
 }
 
@@ -58,12 +56,12 @@ float MemFunc::Evaluate(float input)
 	float dx, delta, output;
 	int index;
 
-	dx = (m_maxRange - m_minRange) / m_pointCount;
-	index = (int)((input - m_minRange) / dx);
-	delta = input - index * dx;
+	dx = (m_maxRange - m_minRange) / (m_pointCount-1);
+	index = floor((input - m_minRange) / (m_pointCount - 1));
+	delta = input - m_dataPointsX[index];
 	if( ((index + 1) < m_pointCount) && (index >= 0) ) // avoid out of bounds errors
 	{
-		output = m_dataPointsY[index] + delta * (m_dataPointsY[index + 1] - m_dataPointsY[index]) / dx;
+		output = m_dataPointsY[index] + delta * (m_dataPointsY[index + 1] - m_dataPointsY[index]);
 	}
 	else
 	{
@@ -109,30 +107,22 @@ float MemFunc::Defuzzify()
 	return numerator / denominator;
 }
 
-void MemFunc::LoadTriangle(float left, float mid, float right)
+MemFunc* MemFunc::Clamp(float limit)
 {
-	float x;
-
+	MemFunc* result = new MemFunc;
+	result->Initialize(m_funcName + "_clamped", m_minRange, m_maxRange, m_pointCount);
 	for(int i=0; i<m_pointCount; i++)
 	{
-		x = m_dataPointsX[i]; 
-		if(x <= left)
+		if(m_dataPointsY[i] > limit)
 		{
-			m_dataPointsY[i] = 0;
-		}
-		else if(x <= mid)
-		{
-			m_dataPointsY[i] = 1/(mid-left) * (x - left);
-		}
-		else if(x <= right)
-		{
-			m_dataPointsY[i] = -1/(right-mid) * (x - mid) + 1;
+			result->m_dataPointsY[i] = limit;
 		}
 		else
 		{
-			m_dataPointsY[i] = 0;
+			result->m_dataPointsY[i] = m_dataPointsY[i];
 		}
 	}
+	return result;
 }
 
 float MemFunc::GetX(int index)
@@ -148,4 +138,25 @@ float MemFunc::GetY(int index)
 int MemFunc::GetPointCount()
 {
 	return m_pointCount;
+}
+
+std::string MemFunc::GetName()
+{
+	return m_funcName;
+}
+
+MemFunc* MemFunc::Imply(float premise)
+{
+	return this->Clamp(premise);
+}
+
+void MemFunc::Clear()
+{
+	if(m_dataPointsY)
+	{
+		for(int i=0;i<m_pointCount; i++)
+		{
+			m_dataPointsY[i] = 0;
+		}
+	}
 }

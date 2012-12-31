@@ -3,6 +3,7 @@
 
 #include "FuzzyMemFunc.h"
 #include <map>
+#include <list>
 
 namespace Fuzzy
 {
@@ -15,8 +16,9 @@ namespace Fuzzy
 
 		bool Initialize();
 		void Shutdown();
+		void AddMemFunc(MemFunc** mf, int mfCount);
 		float IsIf(std::string function, float input); // return function(input)
-		MemFunc* IsThen(std::string function, float value); // return MF clamped at
+		MemFunc* IsThen(std::string function, float value); // return MF clamped at value
 
 		int GetFuncCount();
 		std::string GetID();
@@ -24,7 +26,7 @@ namespace Fuzzy
 	private:
 		std::string m_ID;
 		int m_memFuncCount;
-		MemFunc* m_memFuncs;
+		std::list<MemFunc*> m_memFuncs;
 		std::map<std::string, MemFunc*> m_mapFunc;
 	};
 }
